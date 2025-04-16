@@ -16,10 +16,14 @@ const __dirname = path.resolve();
 app.use(cors());
 app.use(express.json()); // allows us to accept JSON data in the req.body
 
+// API Routes
 app.use("/api/products", productRoutes);
 
+// Serve static files in production
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+	
+	// Catch-all route for client-side routing
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 	});
